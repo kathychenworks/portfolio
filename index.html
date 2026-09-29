@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>陈凯西 · Kathy Chen</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23FAF9F6'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-size='34' text-anchor='middle' fill='%231C1C1A'%3EK%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://miaoda.feishu.cn">
+<link href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Serif+SC:wght@300;400;600&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FAF9F6;--ink:#1C1C1A;--sub:#8A867E;--line:#E2DFD8;--accent:#8A3B2C;
+    --serif:"Noto Serif SC",Georgia,"Songti SC","SimSun",serif;
+    --sans:"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;line-height:1.7;-webkit-font-smoothing:antialiased;}
+  .wrap{width:100%;max-width:720px;margin:0 auto;padding:0 26px;}
+  .view{display:none;}
+  .view.active{display:block;}
+  a{color:inherit;text-decoration:none;}
+
+  /* ===== 首页 ===== */
+  #view-home{padding:60px 0 40px;}
+  .en{font-size:8px;letter-spacing:.32em;color:var(--sub);text-transform:uppercase;margin-bottom:24px;}
+  .name{font-family:var(--serif);font-size:22px;font-weight:400;letter-spacing:.06em;line-height:1.2;cursor:pointer;display:inline-flex;align-items:center;position:relative;transition:color .15s;}
+  .name-icon{width:24px;height:auto;margin-right:12px;mix-blend-mode:multiply;}
+  .idx-icon{width:20px;height:auto;margin-right:10px;vertical-align:-2px;mix-blend-mode:multiply;}
+  .name:hover{color:var(--accent);}
+  .index{margin-top:48px;border-top:1px solid var(--line);}
+  .idx-item{display:flex;align-items:center;justify-content:flex-start;gap:16px;padding:20px 2px;border-bottom:1px solid var(--line);transition:background .2s;}
+  .idx-item:hover{background:#F2F0EA;}
+  .idx-no{font-family:var(--serif);font-size:9px;color:var(--accent);}
+  .idx-title{font-family:var(--serif);font-size:14px;font-weight:400;letter-spacing:.05em;}
+  .idx-item:hover .idx-title{color:var(--accent);}
+  .idx-caret{color:var(--line);font-size:9px;}
+
+  /* ===== 二级页 ===== */
+  .sub{padding:40px 0 56px;}
+  .back{display:inline-block;font-size:8px;color:var(--sub);letter-spacing:.06em;padding-bottom:2px;border-bottom:1px solid var(--line);margin-bottom:30px;}
+  .back:hover{color:var(--accent);border-color:var(--accent);}
+  .sub-head .no{font-family:var(--serif);font-size:9px;color:var(--accent);}
+  .sub-head h2{font-family:var(--serif);font-size:16px;font-weight:400;letter-spacing:.05em;margin-top:3px;}
+  .sub-head .desc{font-size:8px;color:var(--sub);margin-top:8px;}
+  .about-block{margin-top:10px;}
+  .about-block p{font-size:9px;line-height:2.2;}
+
+  /* 故事列表 */
+  .story-list{list-style:none;margin-top:28px;border-top:1px solid var(--line);}
+  .story{border-bottom:1px solid var(--line);}
+  .story-head{display:flex;align-items:center;justify-content:flex-start;gap:12px;width:100%;padding:12px 2px;background:transparent;border:none;cursor:pointer;text-align:left;font-family:var(--sans);}
+  .story-head:hover .st-title{color:var(--accent);}
+  .st-left{display:inline-flex;align-items:baseline;gap:10px;}
+  .st-idx{font-family:var(--serif);font-size:7.5px;color:var(--line);}
+  .st-title{font-family:var(--serif);font-size:10px;letter-spacing:.02em;transition:color .15s;}
+  .st-tags{display:inline-flex;gap:6px;flex-shrink:0;align-items:center;}
+  .st-tag{font-size:7.5px;color:var(--sub);border:1px solid var(--line);border-radius:999px;padding:1px 7px;white-space:nowrap;}
+  .st-tag.hl{color:var(--accent);border-color:var(--accent);}
+  .st-caret{color:var(--line);font-size:7.5px;flex-shrink:0;transition:transform .25s,color .25s;}
+  .story.open .st-caret{transform:rotate(90deg);color:var(--accent);}
+  .story-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s;overflow:hidden;}
+  .story.open .story-body{grid-template-rows:1fr;}
+  .story-inner{overflow:hidden;padding:0 2px;}
+  .txt{padding:2px 0 18px;font-size:8.5px;color:var(--ink);max-width:620px;}
+  .field{display:flex;gap:10px;padding:5px 0;border-bottom:1px dashed var(--line);font-size:8.5px;}
+  .field:last-child{border-bottom:none;}
+  .k{flex-shrink:0;width:44px;color:var(--sub);font-size:8px;text-align:right;}
+  .v{text-align:left;min-width:0;}
+  .v p{margin:0 0 7px;text-align:left;}
+  .v p:last-child{margin:0;}
+
+  /* 媒体行 */
+  .media-row{margin-top:30px;border-top:1px solid var(--line);padding-top:26px;}
+  .media-row .fig{margin-bottom:18px;}
+  .media-row img{display:block;max-width:200px;box-shadow:0 2px 14px rgba(28,28,26,.1);}
+  .media-title{font-family:var(--serif);font-size:13px;font-weight:400;letter-spacing:.03em;}
+  .media-desc{font-size:8.5px;color:var(--sub);margin:12px 0 0;max-width:520px;line-height:1.9;}
+  .media-img-link{display:inline-block;}
+  .media-img-link img{transition:transform .15s,box-shadow .15s;}
+  .media-img-link:hover img{transform:scale(1.02);box-shadow:0 3px 18px rgba(28,28,26,.2);}
+
+  @media (max-width:560px){
+    #view-home{padding:44px 0 30px;}
+    .idx-title{font-size:13px;}
+    .st-title{font-size:9.5px;}
+    .media-row img{max-width:100%;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== 视图：首页（一级） ===== -->
+<div class="view active" id="view-home">
+  <div class="wrap">
+    <div class="en">Kathy Chen</div>
+    <h1 class="name" onclick="return show('about')">陈凯西</h1>
+    <nav class="index">
+      <a class="idx-item" href="#/stories" onclick="return show('stories')">
+        <img class="idx-icon" src="https://media.doubao.com/space/api/box/stream/download/all_by_mount_point/DzSjbEEUWoYaW0xS2oCcO1tHnge" alt=""><span class="idx-title">故事 / 剧本</span><span class="idx-caret">→</span>
+      </a>
+      <a class="idx-item" href="#/translation" onclick="return show('translation')">
+        <img class="idx-icon" src="https://media.doubao.com/space/api/box/stream/download/all_by_mount_point/Tu9YbN7syoSNJ1x4iYdc3PFvnWg" alt=""><span class="idx-title">译作</span><span class="idx-caret">→</span>
+      </a>
+      <a class="idx-item" href="#/documentary" onclick="return show('documentary')">
+        <img class="idx-icon" src="https://media.doubao.com/space/api/box/stream/download/all_by_mount_point/LkEgbOxW2oKpNMxmFakcbiqpnfe" alt=""><span class="idx-title">纪录片</span><span class="idx-caret">→</span>
+      </a>
+      <a class="idx-item" href="#/culture" onclick="return show('culture')">
+        <img class="idx-icon" src="https://media.doubao.com/space/api/box/stream/download/all_by_mount_point/MGXmbabgIoGk43xtzEvcTVMQnng" alt=""><span class="idx-title">跨文化</span><span class="idx-caret">→</span>
+      </a>
+    </nav>
+  </div>
+</div>
+
+<!-- ===== 视图：关于 / 简介（二级） ===== -->
+<div class="view" id="view-about">
+  <div class="wrap sub">
+    <a class="back" href="#/" onclick="return show('home')">← 返回</a>
+    <div class="about-block">
+      <p>作者 · 编剧 · 译者 · 跨文化交流者</p>
+      <p>前记者 前外旅局媒体代表</p>
+      <p>伦敦 BSA 国际剧本大赛最佳亚洲剧本获得者</p>
+      <p>女性自我关爱图书《爱的练习》译者</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 视图：故事 / 剧本（二级） ===== -->
+<div class="view" id="view-stories">
+  <div class="wrap sub">
+    <a class="back" href="#/" onclick="return show('home')">← 返回</a>
+    <div class="sub-head"><span class="no">1</span><h2>故事 / 剧本</h2></div>
+    <ul class="story-list" id="storyList"></ul>
+  </div>
+</div>
+
+<!-- ===== 视图：译作（二级） ===== -->
+<div class="view" id="view-translation">
+  <div class="wrap sub">
+    <a class="back" href="#/" onclick="return show('home')">← 返回</a>
+    <div class="sub-head"><span class="no">2</span><h2>译作</h2></div>
+    <div class="media-row">
+      <div class="fig"><img src="https://media.doubao.com/space/api/box/stream/download/all_by_mount_point/R4IFbFg9goeEfqx505KcLJutnuG" alt="《爱的练习》封面"></div>
+      <div class="media-title">《爱的练习》</div>
+      <div class="media-desc">女性自我成长手册，原著 [美]梅根·洛根（Megan Logan），陈凯西 译，人民邮电出版社出版。<br>一本让你学会爱自己的书，点状阅读、短小精悍，5 分钟即可带来意想不到的改变。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 视图：纪录片（二级） ===== -->
+<div class="view" id="view-documentary">
+  <div class="wrap sub">
+    <a class="back" href="#/" onclick="return show('home')">← 返回</a>
+    <div class="sub-head"><span class="no">3</span><h2>纪录片</h2></div>
+    <div class="media-row">
+      <a class="media-img-link" href="http://share.fengshows.cn/video.html?id=5922ff2c-cfd7-448b-b21b-35e388cabcf6&amp;channelID=r06&amp;time=1770081073.871547" target="_blank" rel="noopener"><img src="https://media.doubao.com/space/api/box/stream/download/all_by_mount_point/HcY0bfcdrocYcQxzNRKcFwYwnvB" alt="凤凰卫视《我们和它们》"></a>
+      <div class="media-title">《我们和它们》</div>
+      <div class="media-desc">凤凰卫视节目系列：主人与宠物双双罹患癌症，互相关爱、互相陪伴。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 视图：跨文化（二级） ===== -->
+<div class="view" id="view-culture">
+  <div class="wrap sub">
+    <a class="back" href="#/" onclick="return show('home')">← 返回</a>
+    <div class="sub-head"><span class="no">4</span><h2>跨文化</h2></div>
+    <div class="media-row">
+      <div class="fig"><img src="https://media.doubao.com/space/api/box/stream/download/all_by_mount_point/CglobLzGJoYc4oxch8EcROrInoe" alt="爱尔兰访华"></div>
+      <div class="media-title">爱尔兰 · 拥抱爱尔兰</div>
+      <div class="media-desc">时任爱尔兰总理恩达·肯尼（Enda Kenny）访华，宣布继续对中国游客实行短期签证免签计划。CCTV 现场报道。</div>
+    </div>
+    <div class="media-row">
+      <div class="fig"><img src="https://media.doubao.com/space/api/box/stream/download/all_by_mount_point/CrlGblhsgokdwxxsCZQcAuxOnib" alt="芝加哥访华"></div>
+      <div class="media-title">芝加哥 · 城市外交</div>
+      <div class="media-desc">时任芝加哥市长伊曼纽尔（Rahm Emanuel）访华，并与时任国家旅游局局长邵琪伟举行会谈，推动双边旅游与人文交流。</div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ===== 故事数据 ===== */
+const STORIES = [
+  {t:"爷爷的战争",tags:["战争","电影"],detail:[
+    ["题材","战争 / 电影"],
+    ["简介","初生牛犊，参军入伍。还未适应，就送到战场。经历了个人的懵懂、退缩，挑战、超越；经历了敌我之间亦敌亦友的较量，小人物实现了人生的使命。"]
+  ]},
+  {t:"爸爸快跑",tags:["父子","电影"],detail:[
+    ["题材","父子 / 电影"],
+    ["简介","结束十余年牢狱生涯的主人公，不得不与青春期的儿子修复父子关系。而儿子的意外，让曾经手染鲜血的他，再度与生命展开赛跑。"]
+  ]},
+  {t:"养子疑云",tags:["悬疑","电影","BSA"],detail:[
+    ["题材","悬疑 / 电影"],
+    ["荣誉","伦敦 BSA 国际剧本大赛 · 最佳亚洲剧本"],
+    ["简介","家庭、事业双美满的女主人公，惊恐发现了养子生父的真实身份。而这一原因，竟然与她二十年前的旧案有关。"]
+  ]},
+  {t:"追邮件的锤子",tags:["童话","2823 字"],detail:[
+    ["类型","童话 · 已完成 · 2,823 字"],
+    ["故事","锤子是一名作者，刚给出版社发了一封邮件后，发现里面有一个错别字。作为完美主义的它，立刻冲进电脑光缆、疯狂奔跑，试图把邮件追回来、消灭错别字。就在它即将追上的时候，出现了一位神秘的拦截者——而更令它吃惊的是，这名拦截者是未来的自己。"],
+    ["主题","自责。"],
+    ["看点","每一次的责备与自我责备，都是给自己楔钉子。写错别字、犯错没有关系。一个错别字、一次错误，不会定义我们的人生价值。"],
+    ["读者","7 岁以上的儿童、成年人"],
+    ["标签","完美主义者 · 苛刻者 · 过度自责者 · 谨小慎微者"],
+    ["评语","美国奥斯丁电影节写作大赛：这是具有很强的原创性、充满诗意的故事。生活中常见的邮件与错别字，和荣格的理论自然融合，即通过阴影的模式整合自我、受益和疗愈。"]
+  ]},
+  {t:"害怕伤口的创可贴",tags:["童话","7150 字"],detail:[
+    ["类型","童话 · 已完成 · 7,150 字"],
+    ["故事","一个创可贴，因为害怕伤口，一直缩在盒子的角落里。可是在使用期限的截止日，它必须要完成自己的使命——拥抱伤口。站在勇敢和脆弱的十字路口，它选择了勇敢。然而勇敢模式下的它，屡次尝试依然止步不前；它决定听从内心的风暴，走向脆弱……"],
+    ["主题","脆弱。"],
+    ["看点","脆弱，不是弱。勇敢不是压抑掩盖脆弱，袒露拥抱脆弱才是勇敢。我们可以不勇敢，我们不需要外界的准许和评价。"],
+    ["读者","7 岁以上的儿童、成年人"],
+    ["标签","不敢的人 · 害怕暴露脆弱的人 · 想变勇敢的人"]
+  ]},
+  {t:"后槽牙旅行记",tags:["童话","15840 字","真实故事"],detail:[
+    ["类型","童话 · 已完成 · 根据真实故事创作 · 15,840 字"],
+    ["故事","后槽牙，身为牙齿队长，带领着 32 颗牙齿从天而降。可惜降落任务失败，主人收获了一口乱牙。面对内部的质疑、内讧，以及外部主人的压力，后槽牙从重挫起步，肩扛责任，开始了它相伴主人一生的英雄之旅。"],
+    ["主题","使命。"],
+    ["看点","使命：每一个器官都有自己的使命，牙齿也不例外。后槽牙从一个脾气暴躁的队长，经历各种挑战，终于成长为一名真正的牙齿英雄。","看见：故事通过后槽牙、主人两条线，将牙齿与人类的生活互相交织。最终，终生站在角落里的后槽牙看见了自己，忽视后槽牙的主人也看到了自己，他们互相看见。","别离：对于拥有，我们想尽办法尝试；对于失去，却从未学习。如何面对失去、如何在失去时告别，后槽牙展示了生动的一堂课。"],
+    ["读者","7 岁以上的儿童、成人"],
+    ["评语","美国奥斯丁电影节写作大赛：这个故事的概念是独一无二的，层层冲突，引人入胜。角色众多，但性格分明，在这个故事中，有很多元素需要平衡，作者在这方面做得很好。"]
+  ]},
+  {t:"羽毛与大雨 · 塑料袋与翅膀",tags:["童话","双视角","1652 字"],detail:[
+    ["类型","双视角童话 · 上下篇 · 1,652 字"],
+    ["故事","孤独的小鸭子遇到了被抛弃的塑料袋，它们虽然是不同的材质，但有着相同的外形，于是结成好友。在一场暴风雨中，它们被打散，小鸭子奋不顾身冲向水面去抢救塑料袋，此刻，塑料袋已经奄奄一息……"],
+    ["主题","孤独与价值。"],
+    ["看点","小鸭子与塑料袋的双视角叙事：小鸭子眼里的塑料袋，塑料袋眼里的小鸭子。"],
+    ["读者","5 岁以上儿童、成年人"],
+    ["标签","孤独 · 抛弃 · 联结 · 看见 · 救赎 · 友谊 · 自然 · 归属 · 爱与被爱 · 情绪成长"]
+  ]},
+  {t:"你偷走了我的自行车，但是……",tags:["故事","1511 字","真实故事"],detail:[
+    ["类型","故事 · 已完成 · 根据真实故事创作 · 1,511 字"],
+    ["故事","女孩骑了十年的自行车，被偷了。但在众人都劝她不要发火、心平气和的情况下，她选择相反的方法，连续贴出三张告示，走完了自己的情绪旅途。"],
+    ["主题","表达愤怒。"],
+    ["看点","愤怒的底色是悲伤，悲伤的出口是释然。情绪是分层蛋糕，三张告示展示了情绪的层次。","突破假性情绪稳定，表达真实情绪力量，让自我绽放。","选择题：情绪稳定 vs 情绪真实；Be nice vs No, be real。"],
+    ["读者","5 岁以上儿童、成年人"],
+    ["标签","不懂情绪 · 不善表达情绪 · 不敢表达愤怒 · 不善于情绪管理的人"]
+  ]},
+  {t:"橡皮筋·人",tags:["图像小说"],detail:[
+    ["类型","图像小说"],
+    ["故事","情绪，是一个橡皮筋。它数次和主人公——一名记者——传递信号。但是这名记者对情绪置之不理，而且让情绪在高压中绝望工作。终于，情绪开始了报复和反击。最后，情绪筋疲力尽，人也人仰马翻。记者有了新工作，完全找不到情绪，才发现自己已经和情绪失去联系。最终，情绪与人开始面对面对话，认识对方，开始自我联结……"],
+    ["主题","情绪。"],
+    ["看点","颠覆角度：以往是人认识情绪，这个故事是情绪认识人。","电视记者背后的生活。"],
+    ["读者","10 岁以上儿童、成年人"],
+    ["标签","高压 · 焦虑 · 逃避 · 温暖 · 感受 · 联结"]
+  ]},
+  {t:"撂挑子的扁担",tags:["童话","2053 字"],detail:[
+    ["类型","童话 · 已完成 · 2,053 字"],
+    ["故事","一个叫扁担的扁担，从小就爱挑扁担。可是有一天，它决定要撂挑子了。"],
+    ["主题","边界。"],
+    ["看点","不设边界的后果、设立边界的意义、以及如何设立边界。","自己的扁担自己挑，自己的扁担挑自己。"],
+    ["读者","7 岁以上儿童、成年人"],
+    ["标签","没主见 · 讨好 · 老实人 · 好人卡 · 各种操心人"]
+  ]},
+];
+
+/* ===== 渲染故事列表 ===== */
+const list = document.getElementById('storyList');
+list.innerHTML = STORIES.map((s,i)=>{
+  const n = String(i+1).padStart(2,'0');
+  return `
+  <li class="story" id="story-${i}">
+    <button class="story-head" onclick="toggle(${i})" aria-expanded="false">
+      <span class="st-left"><span class="st-idx">${n}</span><span class="st-title">${s.t}</span></span>
+      <span class="st-tags">${s.tags.map(t=>`<span class="st-tag${t==='BSA'?' hl':''}">${t}</span>`).join('')}</span>
+      <span class="st-caret">▸</span>
+    </button>
+    <div class="story-body"><div class="story-inner"><div class="txt">
+      ${s.detail.map(([k,v])=>{
+        const vv = Array.isArray(v) ? v.map(p=>`<p>${p}</p>`).join('') : `<p>${v}</p>`;
+        return `<div class="field"><span class="k">${k}</span><span class="v">${vv}</span></div>`;
+      }).join('')}
+    </div></div></div>
+  </li>`;
+}).join('');
+window.toggle = i => {
+  const el = document.getElementById('story-'+i);
+  const open = el.classList.toggle('open');
+  el.querySelector('.story-head').setAttribute('aria-expanded', open);
+};
+
+/* ===== 视图切换（首页 / 二级页） ===== */
+const views = ['home','about','stories','translation','documentary','culture'];
+function show(id){
+  if(!views.includes(id)) id = 'home';
+  views.forEach(v=>document.getElementById('view-'+v).classList.toggle('active', v===id));
+  window.scrollTo(0,0);
+  return false;
+}
+window.show = show;
+function route(){ show(location.hash.replace('#/','') || 'home'); }
+window.addEventListener('hashchange', route);
+route();
+</script>
+</body>
+</html>
+<!-- （注：内容由AI生成） -->
